@@ -1,8 +1,8 @@
 //
-//  Spacer.swift
-//  Tablet
+//  Spacer_JM.swift
+//  CleanArchitecture
 //
-//  Created by 정준영 on 4/19/24.
+//  Created by 정준영 on 4/27/24.
 //
 
 import UIKit

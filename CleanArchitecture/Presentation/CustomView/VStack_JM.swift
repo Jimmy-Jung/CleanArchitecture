@@ -1,8 +1,8 @@
 //
-//  VStackView.swift
-//  Tablet
+//  VStack_JM.swift
+//  CleanArchitecture
 //
-//  Created by 정준영 on 4/23/24.
+//  Created by 정준영 on 4/27/24.
 //
 
 import UIKit

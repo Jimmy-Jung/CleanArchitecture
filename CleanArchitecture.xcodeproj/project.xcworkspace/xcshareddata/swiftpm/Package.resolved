@@ -1,0 +1,33 @@
+{
+  "originHash" : "1a69382f4f1460241c14bf7b1751d4f1858475e0460d15da7091b56c6313fda8",
+  "pins" : [
+    {
+      "identity" : "jimmykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Jimmy-Jung/JimmyKit",
+      "state" : {
+        "revision" : "a6d075738bea1a6e25524e29e392292651728e22",
+        "version" : "1.7.2"
+      }
+    },
+    {
+      "identity" : "snapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SnapKit/SnapKit.git",
+      "state" : {
+        "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
+        "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "then",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/devxoul/Then.git",
+      "state" : {
+        "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
+        "version" : "3.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

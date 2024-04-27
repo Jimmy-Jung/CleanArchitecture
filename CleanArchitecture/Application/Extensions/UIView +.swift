@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import SnapKit
 
 protocol Stylable {}
@@ -22,12 +23,50 @@ extension UIView: Stylable {
         case lastBaseline
     }
 }
+
+@propertyWrapper
+final class Observable<T> {
+    private var listener: ((T) -> Void)?
+    var wrappedValue: T {
+        didSet {
+            listener?(wrappedValue)
+        }
+    }
+    
+    init(wrappedValue: T) {
+        self.wrappedValue = wrappedValue
+    }
+    
+    func bind(_ closure: @escaping (_ value: T) -> Void) {
+        listener = closure
+    }
+}
+
+
+class CustomLabel: UILabel {
+    weak var observableText: Observable<String>?
+    
+    @discardableResult
+    func text(_ text: Observable<String>) -> Self {
+        observableText = text
+        self.text = text.wrappedValue
+        observableText?.bind({ [weak self] value in
+            self?.text = value
+            print("value: \(value)")
+        })
+        return self
+    }
+}
+
+
+
+
 extension Stylable where Self: UIView {
     
     init(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView] = { [] }
+        @UIViewBuilder _ content: () -> [UIView] = { [] }
     ) {
         self.init(frame: .zero)
         addVStackView(
@@ -41,7 +80,7 @@ extension Stylable where Self: UIView {
     func body(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView] = { [] }
+        @UIViewBuilder _ content: () -> [UIView] = { [] }
     ) -> Self {
         addVStackView(
             alignment: alignment,
@@ -51,10 +90,24 @@ extension Stylable where Self: UIView {
         return self
     }
     
+    @discardableResult
+    func body(
+        alignment: Alignment = .center,
+        distribution: UIStackView.Distribution = .fill,
+        @ViewBuilder _ content: () -> some View
+    ) -> Self {
+        if let hostView = UIHostingController(rootView: content()).view {
+            addVStackView(alignment: alignment, distribution: distribution) {
+                hostView
+            }
+        }
+        return self
+    }
+    
     fileprivate func addVStackView(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView]
+        @UIViewBuilder _ content: () -> [UIView]
     ) {
         let vStackView = VStack_JM(distribution: distribution, content)
         self.addSubview(vStackView)

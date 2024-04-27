@@ -11,10 +11,6 @@ import SnapKit
 import Then
 
 final class CleanViewController: UIViewController {
-    
-    private let TitleLabel = UILabel()
-    private let UpButton = UIButton(configuration: .filled())
-    private let DownButton = UIButton(configuration: .filled())
     private let useCaseInterActor: CleanUseCaseInteractor
     
     init(useCaseInterActor: CleanUseCaseInteractor) {
@@ -22,14 +18,17 @@ final class CleanViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @Observable var titleText: String = "Hello World"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         useCaseInterActor.presenter?.delegate = self
+
         view.body {
             VStack_JM(spacing: 20, alignment: .center) {
-                TitleLabel
-                    .text("Hello, World!")
+                CustomLabel()
+                    .text(_titleText)
                     .numberOfLines(1)
                     .lineBreakMode(.byClipping)
                     .font(.systemFont(ofSize: 20))
@@ -37,7 +36,7 @@ final class CleanViewController: UIViewController {
                     .textColor(.label)
                 
                 HStack_JM(spacing: 10, alignment: .center) {
-                    UpButton
+                    UIButton(configuration: .filled())
                         .baseBackgroundColor(.systemBlue)
                         .baseForegroundColor(.white)
                         .title(" + ")
@@ -46,7 +45,7 @@ final class CleanViewController: UIViewController {
                             useCaseInterActor.upButtonTapped()
                         }
                     
-                    DownButton
+                    UIButton(configuration: .filled())
                         .baseBackgroundColor(.systemBlue)
                         .baseForegroundColor(.white)
                         .title(" - ")
@@ -68,7 +67,17 @@ final class CleanViewController: UIViewController {
 
 extension CleanViewController: CleanUseCaseOutputDelegate {
     func setLabel(response: String) {
-        TitleLabel.text(response)
+        print(response)
+        if response == "서버에서 받아온 -" {
+            changeRootViewController()
+        }
+        titleText = response
+    }
+    
+    func changeRootViewController() {
+        let vc = UIViewController()
+        vc.view.backgroundColor = .systemRed
+        UIApplication.shared.windows.first?.rootViewController = vc
     }
 }
 

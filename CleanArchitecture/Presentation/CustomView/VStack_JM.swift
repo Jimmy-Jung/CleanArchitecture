@@ -19,7 +19,7 @@ final class VStack_JM: UIStackView {
         spacing: CGFloat = 0,
         alignment: UIStackView.Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView]
+        @UIViewBuilder _ content: () -> [UIView]
     ) {
         self.init()
         self.alignment(alignment)

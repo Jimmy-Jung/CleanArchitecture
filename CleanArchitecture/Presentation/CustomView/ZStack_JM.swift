@@ -8,7 +8,7 @@
 import UIKit
 
 final class ZStack_JM: UIView {
-    init(@ViewBuilder _ content: () -> [UIView]) {
+    init(@UIViewBuilder _ content: () -> [UIView]) {
         super.init(frame: .zero)
         content().forEach {
             self.addSubview($0)

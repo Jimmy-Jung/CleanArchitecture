@@ -15,4 +15,12 @@ enum DIContainer {
         )
         return CleanViewController(useCaseInterActor: interactor)
     }
+    
+    static func makeSwiftUICopyViewController() -> SwiftUICopyViewController {
+        let interactor = DefaultCleanUseCaseInteractor(
+            presenter: DefaultCleanPresenter(),
+            repository: DefaultCleanRepository()
+        )
+        return SwiftUICopyViewController(useCaseInterActor: interactor)
+    }
 }

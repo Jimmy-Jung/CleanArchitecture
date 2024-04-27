@@ -12,19 +12,14 @@ import Then
 
 final class CleanViewController: UIViewController {
     
-    private var TitleLabel: UILabel = UILabel()
-    private var UpButton: UIButton = UIButton(configuration: .filled())
-    private var DownButton: UIButton = UIButton(configuration: .filled())
+    private let TitleLabel = UILabel()
+    private let UpButton = UIButton(configuration: .filled())
+    private let DownButton = UIButton(configuration: .filled())
     private let useCaseInterActor: CleanUseCaseInteractor
     
     init(useCaseInterActor: CleanUseCaseInteractor) {
         self.useCaseInterActor = useCaseInterActor
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -63,6 +58,11 @@ final class CleanViewController: UIViewController {
                 
             }
         }
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

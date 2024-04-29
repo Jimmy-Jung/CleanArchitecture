@@ -8,55 +8,41 @@
 import UIKit
 import JimmyKit
 import SnapKit
-import Then
+import Combine
+
+struct SampleData {
+    var titleText: String
+    var width: CGFloat = 0
+    var textColor: UIColor = .label
+    
+    init(titleText: String) {
+        self.titleText = titleText
+    }
+}
+
+protocol CleanViewDelegate: AnyObject {
+    func buttonTapped(isPlus: Bool)
+}
 
 final class CleanViewController: UIViewController {
     private let useCaseInterActor: CleanUseCaseInteractor
-    
     init(useCaseInterActor: CleanUseCaseInteractor) {
         self.useCaseInterActor = useCaseInterActor
         super.init(nibName: nil, bundle: nil)
     }
-    
-    @Observable var titleText: String = "Hello World"
-    
+    var sampleData: SampleData? = .init(titleText: "Hello world") {
+        didSet {
+            cleanView.sampleData = sampleData
+        }
+    }
+    var cleanView: CleanView = CleanView()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         useCaseInterActor.presenter?.delegate = self
-
-        view.body {
-            VStack_JM(spacing: 20, alignment: .center) {
-                CustomLabel()
-                    .text(_titleText)
-                    .numberOfLines(1)
-                    .lineBreakMode(.byClipping)
-                    .font(.systemFont(ofSize: 20))
-                    .textAlignment(.center)
-                    .textColor(.label)
-                
-                HStack_JM(spacing: 10, alignment: .center) {
-                    UIButton(configuration: .filled())
-                        .baseBackgroundColor(.systemBlue)
-                        .baseForegroundColor(.white)
-                        .title(" + ")
-                        .addAction { [weak self] in
-                            guard let self else { return }
-                            useCaseInterActor.upButtonTapped()
-                        }
-                    
-                    UIButton(configuration: .filled())
-                        .baseBackgroundColor(.systemBlue)
-                        .baseForegroundColor(.white)
-                        .title(" - ")
-                        .addAction { [weak self] in
-                            guard let self else { return }
-                            useCaseInterActor.downButtonTapped()
-                        }
-                }
-                
-            }
-        }
+        view.body(cleanView)
+        cleanView.delegate = self
+        cleanView.sampleData = sampleData
     }
     
     @available(*, unavailable)
@@ -65,13 +51,25 @@ final class CleanViewController: UIViewController {
     }
 }
 
-extension CleanViewController: CleanUseCaseOutputDelegate {
+extension CleanViewController: CleanUseCaseOutputDelegate, CleanViewDelegate {
+    func buttonTapped(isPlus: Bool) {
+        if isPlus {
+            useCaseInterActor.downButtonTapped()
+        } else {
+            useCaseInterActor.upButtonTapped()
+        }
+    }
+    
     func setLabel(response: String) {
         print(response)
         if response == "서버에서 받아온 -" {
-            changeRootViewController()
+            sampleData?.width = 50
+            sampleData?.textColor = .red
+        } else {
+           sampleData?.width = 100
+              sampleData?.textColor = .blue
         }
-        titleText = response
+        sampleData?.titleText = response
     }
     
     func changeRootViewController() {

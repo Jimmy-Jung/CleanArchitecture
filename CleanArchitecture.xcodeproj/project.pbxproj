@@ -30,6 +30,7 @@
 		5528C4222BDCEDE2004FF6DA /* UIView +.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5528C4212BDCEDE2004FF6DA /* UIView +.swift */; };
 		5528C4262BDD3E60004FF6DA /* UIButton +.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5528C4252BDD3E60004FF6DA /* UIButton +.swift */; };
 		5528C4282BDD47E4004FF6DA /* SwiftUICopyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5528C4272BDD47E4004FF6DA /* SwiftUICopyViewController.swift */; };
+		556993A22BDFC82C00363A8E /* CleanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556993A12BDFC82C00363A8E /* CleanView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		5528C4212BDCEDE2004FF6DA /* UIView +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView +.swift"; sourceTree = "<group>"; };
 		5528C4252BDD3E60004FF6DA /* UIButton +.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton +.swift"; sourceTree = "<group>"; };
 		5528C4272BDD47E4004FF6DA /* SwiftUICopyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICopyViewController.swift; sourceTree = "<group>"; };
+		556993A12BDFC82C00363A8E /* CleanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				5528C3DF2BDCD325004FF6DA /* CleanViewController.swift */,
+				556993A12BDFC82C00363A8E /* CleanView.swift */,
 				5528C3E62BDCD327004FF6DA /* LaunchScreen.storyboard */,
 				5528C4272BDD47E4004FF6DA /* SwiftUICopyViewController.swift */,
 			);
@@ -337,6 +340,7 @@
 				5528C4222BDCEDE2004FF6DA /* UIView +.swift in Sources */,
 				5528C40D2BDCEAA2004FF6DA /* CleanPresenter.swift in Sources */,
 				5528C3DE2BDCD325004FF6DA /* SceneDelegate.swift in Sources */,
+				556993A22BDFC82C00363A8E /* CleanView.swift in Sources */,
 				5528C40F2BDCEC7B004FF6DA /* CleanAPIService.swift in Sources */,
 				5528C4072BDCE9FE004FF6DA /* CleanRepository.swift in Sources */,
 				5528C41E2BDCED35004FF6DA /* SSDEdge.swift in Sources */,

@@ -24,43 +24,6 @@ extension UIView: Stylable {
     }
 }
 
-@propertyWrapper
-final class Observable<T> {
-    private var listener: ((T) -> Void)?
-    var wrappedValue: T {
-        didSet {
-            listener?(wrappedValue)
-        }
-    }
-    
-    init(wrappedValue: T) {
-        self.wrappedValue = wrappedValue
-    }
-    
-    func bind(_ closure: @escaping (_ value: T) -> Void) {
-        listener = closure
-    }
-}
-
-
-class CustomLabel: UILabel {
-    weak var observableText: Observable<String>?
-    
-    @discardableResult
-    func text(_ text: Observable<String>) -> Self {
-        observableText = text
-        self.text = text.wrappedValue
-        observableText?.bind({ [weak self] value in
-            self?.text = value
-            print("value: \(value)")
-        })
-        return self
-    }
-}
-
-
-
-
 extension Stylable where Self: UIView {
     
     init(
@@ -77,11 +40,22 @@ extension Stylable where Self: UIView {
     }
     
     @discardableResult
+    func body(_ view: UIView) -> Self {
+        self.subviews.forEach { $0.removeFromSuperview() }
+        self.addSubview(view)
+        view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return self
+    }
+    
+    @discardableResult
     func body(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
         @UIViewBuilder _ content: () -> [UIView] = { [] }
     ) -> Self {
+        self.subviews.forEach { $0.removeFromSuperview() }
         addVStackView(
             alignment: alignment,
             distribution: distribution,
@@ -96,6 +70,7 @@ extension Stylable where Self: UIView {
         distribution: UIStackView.Distribution = .fill,
         @ViewBuilder _ content: () -> some View
     ) -> Self {
+        self.subviews.forEach { $0.removeFromSuperview() }
         if let hostView = UIHostingController(rootView: content()).view {
             addVStackView(alignment: alignment, distribution: distribution) {
                 hostView

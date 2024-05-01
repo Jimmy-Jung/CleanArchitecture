@@ -7,18 +7,6 @@
 
 import Foundation
 
-@propertyWrapper
-struct Dependancy<T> {
-    var wrappedValue: T
-    init() {
-        #if DEBUG
-        self.wrappedValue = MockDIContainer.resolve()
-        #else
-        self.wrappedValue = DefaultDIContainer.resolve()
-        #endif
-    }
-}
-
 protocol DIContainer {
     static func resolve<T>() -> T
 }

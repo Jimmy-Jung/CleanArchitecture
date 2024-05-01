@@ -25,7 +25,7 @@ protocol CleanViewDelegate: AnyObject {
 }
 
 final class CleanViewController: UIViewController {
-    @Dependancy private var useCaseInterActor: CleanUseCaseInteractor
+    @Dependency private var useCaseInterActor: CleanUseCaseInteractor
 
     var sampleData: SampleData? = .init(titleText: "Hello world") {
         didSet {

@@ -25,17 +25,16 @@ protocol CleanViewDelegate: AnyObject {
 }
 
 final class CleanViewController: UIViewController {
-    private let useCaseInterActor: CleanUseCaseInteractor
-    init(useCaseInterActor: CleanUseCaseInteractor) {
-        self.useCaseInterActor = useCaseInterActor
-        super.init(nibName: nil, bundle: nil)
-    }
+    @Dependancy private var useCaseInterActor: CleanUseCaseInteractor
+
     var sampleData: SampleData? = .init(titleText: "Hello world") {
         didSet {
             cleanView.sampleData = sampleData
         }
     }
+    
     var cleanView: CleanView = CleanView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -43,11 +42,6 @@ final class CleanViewController: UIViewController {
         view.body(cleanView)
         cleanView.delegate = self
         cleanView.sampleData = sampleData
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -82,5 +76,5 @@ extension CleanViewController: CleanUseCaseOutputDelegate, CleanViewDelegate {
 
 @available(iOS 17.0, *)
 #Preview {
-    DIContainer.makeViewController()
+    CleanViewController()
 }

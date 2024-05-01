@@ -96,5 +96,5 @@ extension SwiftUICopyViewController: CleanUseCaseOutputDelegate {
 
 @available(iOS 17.0, *)
 #Preview {
-    DIContainer.makeSwiftUICopyViewController()
+    SwiftUICopyViewController(useCaseInterActor: DefaultCleanUseCaseInteractor(presenter: DefaultCleanPresenter(), repository: DefaultCleanRepository()))
 }

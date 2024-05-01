@@ -29,8 +29,6 @@ final class CleanView: UIView {
 
     init() {
         super.init(frame: .zero)
-
-        
         self.body {
             VStack_JM(spacing: 20, alignment: .center) {
                 TitleLabel
@@ -75,4 +73,9 @@ final class CleanView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+@available(iOS 17.0, *)
+#Preview {
+    CleanViewController()
 }

@@ -7,12 +7,51 @@
 
 import Foundation
 
-enum DIContainer {
-    static func makeViewController() -> CleanViewController {
-        let interactor = DefaultCleanUseCaseInteractor(
-            presenter: DefaultCleanPresenter(),
-            repository: DefaultCleanRepository()
-        )
-        return CleanViewController(useCaseInterActor: interactor)
+@propertyWrapper
+struct Dependancy<T> {
+    var wrappedValue: T
+    init() {
+        #if DEBUG
+        self.wrappedValue = MockDIContainer.resolve()
+        #else
+        self.wrappedValue = DefaultDIContainer.resolve()
+        #endif
     }
 }
+
+protocol DIContainer {
+    static func resolve<T>() -> T
+}
+
+enum DefaultDIContainer: DIContainer {
+    static func resolve<T>() -> T {
+        
+        switch "\(T.self)" {
+            case "\(CleanUseCaseInteractor.self)":
+                return DefaultCleanUseCaseInteractor(
+                    presenter: DefaultCleanPresenter(),
+                    repository: DefaultCleanRepository()
+                ) as! T
+            default:
+                fatalError("Unregistered service")
+        }
+    }
+}
+
+enum MockDIContainer: DIContainer {
+    static func resolve<T>() -> T {
+        
+        switch "\(T.self)" {
+            case "\(CleanUseCaseInteractor.self)":
+                return DefaultCleanUseCaseInteractor(
+                    presenter: DefaultCleanPresenter(),
+                    repository: DefaultCleanRepository()
+                ) as! T
+            default:
+                fatalError("Unregistered service")
+        }
+    }
+}
+
+
+

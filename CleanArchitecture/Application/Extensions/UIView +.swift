@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import SnapKit
 
 protocol Stylable {}
@@ -22,12 +23,13 @@ extension UIView: Stylable {
         case lastBaseline
     }
 }
+
 extension Stylable where Self: UIView {
     
     init(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView] = { [] }
+        @UIViewBuilder _ content: () -> [UIView] = { [] }
     ) {
         self.init(frame: .zero)
         addVStackView(
@@ -38,11 +40,22 @@ extension Stylable where Self: UIView {
     }
     
     @discardableResult
+    func body(_ view: UIView) -> Self {
+        self.subviews.forEach { $0.removeFromSuperview() }
+        self.addSubview(view)
+        view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return self
+    }
+    
+    @discardableResult
     func body(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView] = { [] }
+        @UIViewBuilder _ content: () -> [UIView] = { [] }
     ) -> Self {
+        self.subviews.forEach { $0.removeFromSuperview() }
         addVStackView(
             alignment: alignment,
             distribution: distribution,
@@ -51,10 +64,25 @@ extension Stylable where Self: UIView {
         return self
     }
     
+    @discardableResult
+    func body(
+        alignment: Alignment = .center,
+        distribution: UIStackView.Distribution = .fill,
+        @ViewBuilder _ content: () -> some View
+    ) -> Self {
+        self.subviews.forEach { $0.removeFromSuperview() }
+        if let hostView = UIHostingController(rootView: content()).view {
+            addVStackView(alignment: alignment, distribution: distribution) {
+                hostView
+            }
+        }
+        return self
+    }
+    
     fileprivate func addVStackView(
         alignment: Alignment = .center,
         distribution: UIStackView.Distribution = .fill,
-        @ViewBuilder _ content: () -> [UIView]
+        @UIViewBuilder _ content: () -> [UIView]
     ) {
         let vStackView = VStack_JM(distribution: distribution, content)
         self.addSubview(vStackView)
